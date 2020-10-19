@@ -54,4 +54,4 @@ Feel free to check [issues page](https://github.com/AmanL04/website-publisher/is
 
 ## License
 Copyright @ 2020 [Aman Lodha](https://amanlodha.tech).<br>
-This project is [MIT]() licensed.
+This project is [MIT](https://opensource.org/licenses/MIT) licensed.
