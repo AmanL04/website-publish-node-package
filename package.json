@@ -1,6 +1,6 @@
 {
   "name": "website-publish",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "A node app which will help you deploy your local website on a temporary sharable URL",
   "main": "index.js",
   "scripts": {
@@ -26,5 +26,11 @@
     "npm": ">=6.0",
     "node": ">=10.0"
   },
-  "keywords": ["Deploy", "Publish", "Website Publish", "Temporary website", "CLI tool"]
+  "keywords": [
+    "Deploy",
+    "Publish",
+    "Website Publish",
+    "Temporary website",
+    "CLI tool"
+  ]
 }
