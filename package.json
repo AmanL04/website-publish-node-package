@@ -1,18 +1,30 @@
 {
   "name": "website-publish",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "A node app which will help you deploy your local website on a temporary sharable URL",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aman Lodha",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "archiver": "^5.0.2",
     "commander": "^6.1.0",
     "form-data": "^3.0.0",
     "node-fetch": "^2.6.1"
   },
-  "bin": "index.js"
+  "bin": "index.js",
+  "bugs": {
+    "url": "https://github.com/AmanL04/website-publisher/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AmanL04/website-publisher"
+  },
+  "engines": {
+    "npm": ">=6.0",
+    "node": ">=10.0"
+  },
+  "keywords": ["Deploy", "Publish", "Website Publish", "Temporary website", "CLI tool"]
 }
