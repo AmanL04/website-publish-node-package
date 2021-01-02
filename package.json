@@ -1,13 +1,13 @@
 {
   "name": "website-publish",
-  "version": "1.2.6",
+  "version": "1.2.8",
   "description": "A node app which will help you deploy your local website on a temporary sharable URL",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aman Lodha",
-  "license": "MIT",
+  "license": "mit",
   "dependencies": {
     "archiver": "^5.0.2",
     "commander": "^6.1.0",

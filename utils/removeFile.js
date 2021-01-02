@@ -1,5 +1,11 @@
-const fs = require("fs");
+// Import package dependencies
+const fsp = require("fs").promises;
 
-module.exports = function (filePath) {
-	fs.unlinkSync(filePath);
+/**
+ * @function removeFile
+ * @description Function which unlinks (deletes in our case) the given file path
+ * @returns {Promise}
+ * */
+module.exports = function removeFile(filePath) {
+	return fsp.unlink(filePath);
 };

@@ -1,43 +1,95 @@
+// Import package dependencies
 const fs = require("fs");
 const path = require("path");
 
+// Import utility functions
 const query = require("../utils/query");
 const createZip = require("../utils/zip");
-const removeFile = require("../utils/removeFile");
 const { up: upAPI } = require("../utils/fetch");
+const removeFile = require("../utils/removeFile");
+const errorHandler = require("../utils/genericErrorHandler");
 
-module.exports = function (program) {
+// Import regex to validate if the provided domain follows the required format
+const { subdomainCaptureRegex } = require("../utils/regex");
+
+/**
+ * @function getSubdomainFromUser
+ * @async
+ * @description Prompt user to provide deplotment details, validate them and deploy the project if valid
+ * @returns object|undefined - subdomain is retrieved from the provided domain
+ */
+async function getFolderAndSubdomainFromUser() {
+	// Prompt user to provide the folder path of the static files
+	const folder = await query("Folder Path: ");
+
+	// Resolve the path to an absolute path
+	const resolvedFolderPath = path.resolve(folder);
+
+	// Check if the folder exists
+	if (!fs.existsSync(resolvedFolderPath)) {
+		throw new Error("Folder does not exist");
+	}
+
+	// Prompt user to provide the domain to which they want to deploy their static files
+	const domain = await query("Domain (optional): ");
+
+	// If domain is provided and is not of the required format
+	if (domain && !subdomainCaptureRegex.test(domain)) {
+		throw new Error(
+			"Invalid domain. Format is https://your-subdomain-comes-here.publish.amanlodha.tech"
+		);
+	}
+
+	// Retrieve the subdomain from the provided domain
+	const matches = domain.match(subdomainCaptureRegex);
+	const subdomain = matches ? matches[1] : undefined;
+
+	return { folder: resolvedFolderPath, subdomain: subdomain };
+}
+
+/**
+ * @function upCommandHandler
+ * @async
+ * @description Prompt user to provide deployment details, validate them and deploy the project if valid
+ * @returns {Promise}
+ */
+async function upCommandHandler() {
+	// Get the subdomain from user
+	const { folder, subdomain } = await getFolderAndSubdomainFromUser().catch(
+		errorHandler
+	);
+
+	// Zip the folder to send through an API
+	const zipFilePath = await createZip(folder).catch(errorHandler);
+
+	// TODO Check zip size. It cannot be greater than 20MB
+
+	// Send the zipped folder of static files and subdomain data using up API
+	const res = await upAPI(zipFilePath, subdomain).catch(errorHandler);
+
+	// Check success of the response and if success show the URL to which it's deployed
+	if (res.success) {
+		console.log(res.message);
+		console.log("Project deployed @ https://" + res.details);
+	} else {
+		console.error(res.message);
+	}
+
+	// Delete the zip file created
+	await removeFile(zipFilePath);
+
+	process.exit();
+}
+
+/**
+ * @function addUpCommand
+ * @param {Commander.Command} program - program instance of the "commander" node package
+ * @description Adds a command "up" and provides an async handler for the same. Used to deploy the static files of an frontend application.
+ * @returns void
+ */
+module.exports = function addUpCommand(program) {
 	program
 		.command("up")
 		.description("Deploy your local website on server with a sharable link")
-		.action(async () => {
-			const folder = await query("Folder Path: ").then(path.resolve);
-
-			if (!fs.existsSync(folder)) {
-				console.log("Folder does not exist");
-				process.exit();
-			}
-			const domain = await query("Domain (optional): ");
-			const regex = /^https:\/\/([a-zA-Z0-9_]+)\.publish\.amanlodha\.tech$/;
-
-			if (domain && !regex.test(domain)) {
-				console.log("Invalid domain. Format is https://your-subdomain-comes-here.publish.amanlodha.tech");
-				process.exit();
-			}
-			const subdomain = domain.match(regex);
-
-			const zipFilePath = await createZip(folder);
-
-			// TODO Check folder size. It cannot be greater than 20MB
-
-			try {
-				const res = await upAPI(zipFilePath, subdomain ? subdomain[1] : undefined);
-				console.log(res.message);
-				console.log("URL: https://" + res.details);
-			} catch (err) {
-				console.log(err);
-			}
-			removeFile(zipFilePath);
-			process.exit();
-		});
+		.action(upCommandHandler);
 };

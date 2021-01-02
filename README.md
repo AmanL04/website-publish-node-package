@@ -50,7 +50,7 @@ LinkedIn: [@aman-lodha-37b642170](https://www.linkedin.com/in/aman-lodha-37b6421
 ## Contributions
 
 Contributions, issues, and feature requests are welcome!<br>
-Feel free to check [issues page](https://github.com/AmanL04/website-publisher/issues)
+Feel free to check [issues page](https://github.com/AmanL04/website-publish-node-package/issues)
 
 ## License
 Copyright @ 2020 [Aman Lodha](https://amanlodha.tech).<br>
