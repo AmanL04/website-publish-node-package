@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Aman Lodha",
+  "author": "AmanL04",
   "license": "mit",
   "dependencies": {
     "archiver": "^5.0.2",
@@ -14,13 +14,15 @@
     "form-data": "^3.0.0",
     "node-fetch": "^2.6.1"
   },
-  "bin": "index.js",
+  "bin": {
+    "website-publish": "index.js"
+  },
   "bugs": {
     "url": "https://github.com/AmanL04/website-publish-node-package/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AmanL04/website-publish-node-package"
+    "url": "git+https://github.com/AmanL04/website-publish-node-package.git"
   },
   "engines": {
     "npm": ">=6.0",
