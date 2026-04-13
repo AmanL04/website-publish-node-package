@@ -1,5 +1,5 @@
 {
-  "name": "website-publish",
+  "name": "@amanl04/website-publish",
   "version": "1.2.11",
   "description": "A node app which will help you deploy your local website on a temporary sharable URL",
   "main": "index.js",
